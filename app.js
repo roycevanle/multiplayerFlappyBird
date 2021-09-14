@@ -47,10 +47,18 @@ document.addEventListener('DOMContentLoaded' , () => {
         function moveObstacle() {
             obstacleLeft -= 2
             obstacle.style.left = obstacleLeft + 'px'
+            
+            if (obstacleLeft === -60) {
+                clearInterval(timerId)
+                gameDisplay.removeChild(obstacle)
+            }
         }
 
-        //move obstacle to the left every 20ms
+        // setInterval is generally used for animation (less delay) than setTimeout
+        // move obstacle to the left every 20ms
         let timerId = setInterval(moveObstacle, 20)
+        // setTimeout calls a function after a specified number of ms
+        setTimeout(generateObstacle, 3000)
     }
     generateObstacle();
 
