@@ -1,0 +1,5 @@
+Problems Ran Into:
+
+Misspelled setInterval as setIntereval.
+-minor mistake, but solved it by looking at console in HTML
+
