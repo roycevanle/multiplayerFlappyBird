@@ -42,6 +42,10 @@ const nickNamesDictionary = [
 let obstacleTimers = [];
 let gameStarted = false;
 let gameTimerId;
+let myScore = 0;
+let highScore = 0;
+let highScoreNickname = "Player Placeholder";
+let myNickname;
 
 
 // stores nickname in localstorage (play again & again)
@@ -178,6 +182,10 @@ document.addEventListener('DOMContentLoaded' , () => {
         ground.classList.add("ground");
         ground.classList.remove("ground-moving");
     }
+
+    function sortLeaderboard() {
+        scoreLabel.innerHTML = "Score: " + myScore;
+      }
 
 
 
