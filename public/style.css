@@ -1,5 +1,6 @@
 body {
-    display: flex;
+    font-family: "VT323", monospace;
+    margin: 0;
 }
 
 .game-container {
@@ -52,6 +53,14 @@ body {
     top: 580px;
     z-index: +1; /*closer to us*/
 }
+
+.instruction {
+    margin: 0px 20px 0px;
+    text-align: center;
+    width: 600px;
+    font-size: 25px;
+  }
+
 
 .bird {
     background-color: yellow;
