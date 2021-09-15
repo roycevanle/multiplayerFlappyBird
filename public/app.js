@@ -86,6 +86,19 @@ document.addEventListener('DOMContentLoaded' , () => {
     let gap = 440
     let isGameOver = false
 
+    // method to filter nicknames for badwords
+    const filterNickname = async (nicknameText) => {
+        const http = new XMLHttpRequest();
+        let encodedText = encodeURIComponent(nicknameText);
+        http.open("GET", profanityBaseURL + encodedText + "&fill_text=***");
+        http.send();
+        http.onload = () => {
+        myNickname = http.responseText;
+        nicknameInput.value = myNickname;
+        localStorage.setItem("flappy-nickname", myNickname);
+        };
+    };
+    
     // adding html logic for highscore & nickname input
     topScoreLabel.innerHTML =
         "Top score - " + highScore + "pts by " + highScoreNickname;
