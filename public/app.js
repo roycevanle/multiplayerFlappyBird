@@ -51,7 +51,6 @@ let myPublishChannel;
 let gameChannel;
 let gameChannelName = "flappy-game";
 let allBirds = {};
-let obstacleTimer = 0;
 
 
 // stores nickname in localstorage (play again & again)
@@ -317,6 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 topScoreLabel.innerHTML =
                     "Top score - " + highScore + "pts by " + highScoreNickname;
             }
+            // moved here so every player has obstacles in sync
             if (msg.data.launchObstacle == true && !isGameOver) {
                 generateObstacles(msg.data.obstacleHeight);
             }
