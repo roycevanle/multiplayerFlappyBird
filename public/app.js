@@ -46,6 +46,10 @@ let myScore = 0;
 let highScore = 0;
 let highScoreNickname = "player placeholder";
 let myNickname;
+let myClientId;
+let myPublishedChannel;
+let gameChannel;
+let gameChannelName = "flappy-game";
 
 
 // stores nickname in localstorage (play again & again)
@@ -98,7 +102,7 @@ document.addEventListener('DOMContentLoaded' , () => {
         localStorage.setItem("flappy-nickname", myNickname);
         };
     };
-    
+
     // adding html logic for highscore & nickname input
     topScoreLabel.innerHTML =
         "Top score - " + highScore + "pts by " + highScoreNickname;
@@ -111,9 +115,19 @@ document.addEventListener('DOMContentLoaded' , () => {
 
     // prevent default behavior when spacebar/any other key pressed (prevents scroll down)
     window.addEventListener("keydown", function (e) {
-    if (e.keyCode == 32 && e.target == document.body) {
-        e.preventDefault();
-    }
+        if (e.keyCode == 32 && e.target == document.body) {
+            e.preventDefault();
+        }
+    });
+
+    // once user is connected to Ably
+    // set clientId & publish channel of user
+    // set their gameChannel to cur game channel
+    realtime.connection.once("connected", () => {
+        myClientId = realtime.auth.clientId;
+        myPublishedChannel = realtime.channels.get
+            ("bird-position-" + myClientId);
+        gameChannel = realtime.channels.get(gameChannelName);
     });
 
     function startGame() {
