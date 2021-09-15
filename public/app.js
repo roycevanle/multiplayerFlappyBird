@@ -47,7 +47,7 @@ let highScore = 0;
 let highScoreNickname = "player placeholder";
 let myNickname;
 let myClientId;
-let myPublishedChannel;
+let myPublishChannel;
 let gameChannel;
 let gameChannelName = "flappy-game";
 
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     // set their gameChannel to cur game channel
     realtime.connection.once("connected", () => {
         myClientId = realtime.auth.clientId;
-        myPublishedChannel = realtime.channels.get
+        myPublishChannel = realtime.channels.get
             ("bird-position-" + myClientId);
         gameChannel = realtime.channels.get(gameChannelName);
 
@@ -133,7 +133,11 @@ document.addEventListener('DOMContentLoaded' , () => {
         gameDisplay.onclick = function () {
             if (!gameStarted) {
               gameStarted = true;
-              
+              gameChannel.presence.enter({
+                  nickname: myNickname,
+              })
+              sendPositionUpdate();
+              showOtherBirds();
               // register an event listener for keydown, then it'll call the control method (below)
               document.addEventListener("keydown", control);
       
@@ -242,6 +246,23 @@ document.addEventListener('DOMContentLoaded' , () => {
         document.removeEventListener('keyup', control)
         ground.classList.add("ground");
         ground.classList.remove("ground-moving");
+    }
+
+    // client connected & start game by clicking (above)
+    // let client start publishing through their channel
+    // if their game is over, detach their published channel
+    function sendPositionUpdates() {
+        let publishTimer = setInterval( () => {
+            myPublishChannel.publish("pos", {
+                bottom: parseInt(bird.style.bottom),
+                nickname: myNickname,
+                score: myScore,
+            });
+            if (isGameOver) {
+                clearInterval(publishTimer);
+                myPublishChannel.detach();
+          }
+        }, 100);
     }
 
     function sortLeaderboard() {
