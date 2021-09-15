@@ -56,6 +56,15 @@ body {
     z-index: +1; /*closer to us*/
 }
 
+.title {
+    margin: 60px 20px 20px;
+    color: #533c44;
+    font-size: 4vw;
+    text-shadow: 2px 2px #dadada;
+    text-align: center;
+    width: 600px;
+}
+
 .instruction {
     margin: 0px 20px 0px;
     text-align: center;
