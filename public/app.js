@@ -269,14 +269,35 @@ document.addEventListener('DOMContentLoaded' , () => {
 
     function showOtherBirds() {
         gameChannel.subscribe("game-state", (msg) => {
-            for(let item in msg.data.birds) {
-                if(item != myClientId) {
-                    let newBottom = msg.data.birds[item].bottom;
-                    let isDead = msg.data.birds[item].isDead;
-                    if(allBirds[item] && !isDead) {
-                        allBirds[item].targetBottom = newBottom;
-                        allBirds[item].isDead = msg.data.birds[item].isDead;
+            for (let item in msg.data.birds) {
+                if (item != myClientId) {
+                  let newBottom = msg.data.birds[item].bottom;
+                  let newLeft = msg.data.birds[item].left;
+                  let isDead = msg.data.birds[item].isDead;
+                  if (allBirds[item] && !isDead) {
+                    allBirds[item].targetBottom = newBottom;
+                    allBirds[item].left = newLeft;
+                    allBirds[item].isDead = msg.data.birds[item].isDead;
+                    allBirds[item].nickname = msg.data.birds[item].nickname;
+                    allBirds[item].score = msg.data.birds[item].score;
+                  } else if (allBirds[item] && isDead) {
+                    sky.removeChild(allBirds[item].el);
+                    delete allBirds[item];
+                  } else {
+                    if (!isGameOver && !isDead) {
+                      allBirds[item] = {};
+                      allBirds[item].el = document.createElement("div");
+                      allBirds[item].el.classList.add("other-bird");
+                      sky.appendChild(allBirds[item].el);
+                      allBirds[item].el.style.bottom = newBottom + "px";
+                      allBirds[item].el.style.left = newLeft + "px";
+                      allBirds[item].isDead = msg.data.birds[item].isDead;
+                      allBirds[item].nickname = msg.data.birds[item].nickname;
+                      allBirds[item].score = msg.data.birds[item].score;
                     }
+                  }
+                } else if (item == myClientId) {
+                  allBirds[item] = msg.data.birds[item];
                 }
             }
         })
