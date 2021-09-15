@@ -86,6 +86,16 @@ document.addEventListener('DOMContentLoaded' , () => {
     let gap = 440
     let isGameOver = false
 
+    // adding html logic for highscore & nickname input
+    topScoreLabel.innerHTML =
+        "Top score - " + highScore + "pts by " + highScoreNickname;
+    nicknameInput.value = myNickname;
+  
+    // if you update your nickname, it sends to filter to check (method above)
+    updateNicknameBtn.addEventListener("click", () => {
+        filterNickname(nicknameInput.value);
+    });
+
     // prevent default behavior when spacebar/any other key pressed (prevents scroll down)
     window.addEventListener("keydown", function (e) {
     if (e.keyCode == 32 && e.target == document.body) {
