@@ -15,6 +15,6 @@ app.get("/", (request, response) => {
 })
 
 // express server listens on a particular port
-const listener = app.listener(process.env.PORT, () => {
-    console.log("App is listening on port" + listener.address().port);
+const listener = app.listen(process.env.PORT, () => {
+    console.log("App is listening on port " + listener.address().port);
 })
