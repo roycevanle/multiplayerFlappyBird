@@ -39,6 +39,11 @@ const nickNamesDictionary = [
   "sepia barbet",
 ];
 
+let obstacleTimers = [];
+let gameStarted = false;
+let gameTimerId;
+
+
 // stores nickname in localstorage (play again & again)
 // if we save nickname in cookies, when user refreshes, we can get again
 if (localStorage.getItem("flappy-nickname")) {
@@ -118,16 +123,29 @@ document.addEventListener('DOMContentLoaded' , () => {
         obstacle.style.bottom = obstacleBottom + 'px'
         topObstacle.style.bottom = obstacleBottom + gap + 'px'
 
+        // used to move obstacle (below) every 20ms (to emulate animation)
+        let timerId = setInterval(moveObstacle, 20);
+        obstacleTimers.push(timerId);
+        
         function moveObstacle() {
             obstacleLeft -= 2
             obstacle.style.left = obstacleLeft + 'px'
             topObstacle.style.left = obstacleLeft + 'px'
             
-            // if it reaches left edge, delete the obstacle
-            if (obstacleLeft === -60) {
-                clearInterval(timerId)
-                gameDisplay.removeChild(obstacle)
-                gameDisplay.removeChild(topObstacle)
+            // if the obstacle reached half the area where the bird is
+            // we increase the score label
+            if (obstacleLeft === 220) {
+                myScore++;
+                setTimeout(() => {
+                sortLeaderboard();
+                }, 400);
+            }
+
+            // when obstacle is far to left, remove it from gameDisplay
+            if (obstacleLeft === -50) {
+                clearInterval(timerId);
+                gameDisplay.removeChild(obstacle);
+                gameDisplay.removeChild(topObstacle);
             }
 
             // if bird reached the floor || hits an obstacle, gamveOver
@@ -137,14 +155,13 @@ document.addEventListener('DOMContentLoaded' , () => {
                 birdBottom > obstacleBottom + gap - 200) ||
                 birdBottom === 0
                 ) {
-                gameOver()
-                clearInterval(timerId)
+                for (timer in obstacleTimers) {
+                    clearInteveral(obstacleTimers[timer]);
+                }
+                gameOver();
             }
         }
 
-        // setInterval is generally used for animation (less delay) than setTimeout
-        // move obstacle to the left every 20ms
-        let timerId = setInterval(moveObstacle, 20)
         // setTimeout calls a function after a specified number of ms
         // generates obstacle only if not gameOver
         if (!isGameOver) setTimeout(generateObstacle, 3000)
