@@ -51,6 +51,8 @@ let myPublishChannel;
 let gameChannel;
 let gameChannelName = "flappy-game";
 let allBirds = {};
+let topScoreChannel;
+let topScoreChannelName = "flappy-top-score";
 
 
 // stores nickname in localstorage (play again & again)
@@ -126,8 +128,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // set their gameChannel to cur game channel
     realtime.connection.once("connected", () => {
         myClientId = realtime.auth.clientId;
-        myPublishChannel = realtime.channels.get
-            ("bird-position-" + myClientId);
+        myPublishChannel = realtime.channels.get("bird-position-" + myClientId);
+        topScoreChannel = realtime.channels.get(topScoreChannelName, {
+            params: { rewind: 1 },
+        });
+        topScoreChannel.subscribe((msg) => {
+            highScore = msg.data.score;
+            highScoreNickname = msg.data.nickname;
+            topScoreLabel.innerHTML =
+                "Top score - " + highScore + "pts by " + highScoreNickname;
+            topScoreChannel.unsubscribe();
+        });
         gameChannel = realtime.channels.get(gameChannelName);
 
         // the game doesn't start directly on page, waits for you to click on game area
@@ -239,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (timer in obstacleTimers) {
                     clearInterval(obstacleTimers[timer]);
                 }
+                sortLeaderboard();
                 gameOver();
             }
         }

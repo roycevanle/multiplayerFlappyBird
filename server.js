@@ -12,6 +12,8 @@ let highScore = 0;
 let highScoreNickname = "player placeholder";
 let birdChannels = {}; //stores all bird/player channels
 let obstacleTimer = 0;
+let topScoreChannel;
+let topScoreChannelName = "flappy-top-score";
 
 // static() creates a new middleware to serve files from w/in a given dir
 const app = express();
@@ -52,6 +54,14 @@ const listener = app.listen(process.env.PORT, () => {
 });
 
 realtime.connection.once("connected", () => {
+  topScoreChannel = realtime.channels.get(topScoreChannelName, {
+    params: { rewind: 1 },
+  });
+  topScoreChannel.subscribe("score", (msg) => {
+    highScore = msg.data.score;
+    highScoreNickname = msg.data.nickname;
+    topScoreChannel.unsubscribe();
+  });
   gameChannel = realtime.channels.get(gameChannelName)
   // .presence used to detect status updates (usr join, leave, dies, etc.)
   gameChannel.presence.subscribe("enter", (msg) => {
@@ -100,6 +110,10 @@ function subscribeToPlayerInput(id) {
       if (msg.data.score > highScore) {
         highScore = msg.data.score;
         highScoreNickname = msg.data.nickname;
+        topScoreChannel.publish("score", {
+          score: highScore,
+          nickname: highScoreNickname,
+        });
       }
     }
   })
