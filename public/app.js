@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded' , () => {
                 birdBottom === 0
                 ) {
                 for (timer in obstacleTimers) {
-                    clearInteveral(obstacleTimers[timer]);
+                    clearInterval(obstacleTimers[timer]);
                 }
                 gameOver();
             }

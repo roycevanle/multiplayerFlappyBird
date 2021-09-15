@@ -98,12 +98,23 @@ body {
     position: absolute;
 }
 
+/*specifies animation to gradually change*/
 @keyframes slideright {
-
+    from {
+        background-position: 10000%;
+      }
+      to {
+        background-position: 0%;
+      }
 }
   
 @-webkit-keyframes slideright {
-
+    from {
+        background-position: 10000%;
+      }
+      to {
+        background-position: 0%;
+      }
 }
 
 .ground {
