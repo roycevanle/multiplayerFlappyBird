@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         allBirds[item].isDead = msg.data.birds[item].isDead;
                         allBirds[item].nickname = msg.data.birds[item].nickname;
                         allBirds[item].score = msg.data.birds[item].score;
-                    // if bird dead, we remove it & delete from local var
+                        // if bird dead, we remove it & delete from local var
                     } else if (allBirds[item] && isDead) {
                         sky.removeChild(allBirds[item].el);
                         delete allBirds[item];
@@ -298,9 +298,19 @@ document.addEventListener('DOMContentLoaded', () => {
                             allBirds[item].score = msg.data.birds[item].score;
                         }
                     }
+                    // if i got an update for my own bird, i update my local arr
                 } else if (item == myClientId) {
                     allBirds[item] = msg.data.birds[item];
                 }
+            }
+            if (msg.data.highScore > highScore) {
+                highScore = msg.data.highScore;
+                highScoreNickname = msg.data.highScoreNickname;
+                topScoreLabel.innerHTML =
+                    "Top score - " + highScore + "pts by " + highScoreNickname;
+            }
+            if (msg.data.launchObstacle == true && !isGameOver) {
+                generateObstacles(msg.data.obstacleHeight);
             }
         })
     }
