@@ -6,7 +6,10 @@ let gameChannel;
 let birdCount = 0;
 let gameTicker;
 let isGameTickerOn = false;
-
+let gameStateObj;
+let birds = {};
+let highScore = 0;
+let highScoreNickname = "player placeholder";
 
 // static() creates a new middleware to serve files from w/in a given dir
 const app = express();
@@ -52,6 +55,48 @@ realtime.connection.once("connected", () => {
     gameChannel.presence.subscribe("enter", (msg) => {
       if(++birdCount === 1 && !isGameTickerOn){
         gameTicker = setInterval(startGameTick, 100);
+        isGameTickerOn = true;
+      }
+      
+      // used identify each entry by unique clientId w/ some data
+      birds[msg.clientId] = {
+        id: msg.clientId,
+        bottom: 350,
+        isDead: false,
+        nickname: msg.data.nickname,
+        score:0,
+      };
+
+      subscribeToPlayerInput(msg.clientId);
+    });
+
+    // game channel subscribes to leave events
+    gameChannel.presence.subscribe('leave', (msg) => {
+      if(birds[msg.clientId] != undefined) { // if client exists...
+        birdCount--;
+        birds[msg.clientId].isDead = true;
+        setTimeout(() => {
+          delete birds[msg.clientId];
+        }, 500);
+        if (birdCount < 1) {
+          isGameTickerOn = false;
+          clearInterval(gameTicker)
+        }
       }
     })
-})
+});
+
+function subscribeToPlayerInput(id) {
+
+}
+
+
+function startGameTick() {
+  // this is what we want to publish in every new update to all players
+  gameStateObj = {
+    birds: birds,
+    highScore: highScore,
+    highScoreNickname: highScoreNickname,
+  };
+  gameChannel.publish("game-state", gameStateObj);
+}

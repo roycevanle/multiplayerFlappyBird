@@ -44,7 +44,7 @@ let gameStarted = false;
 let gameTimerId;
 let myScore = 0;
 let highScore = 0;
-let highScoreNickname = "Player Placeholder";
+let highScoreNickname = "player placeholder";
 let myNickname;
 
 
