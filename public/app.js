@@ -146,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // start game (below) every 20s to up gravity
                 gameTimerId = setInterval(startGame, 20);
-                generateObstacles();
             }
         };
     });
