@@ -10,6 +10,7 @@ let gameStateObj;
 let birds = {};
 let highScore = 0;
 let highScoreNickname = "player placeholder";
+let birdChannels = {}; //stores all bird/player channels
 
 // static() creates a new middleware to serve files from w/in a given dir
 const app = express();
@@ -78,7 +79,7 @@ realtime.connection.once("connected", () => {
         setTimeout(() => {
           delete birds[msg.clientId];
         }, 500);
-        if (birdCount < 1) {
+        if (birdCount < 1) { // no players playing so no need to publish
           isGameTickerOn = false;
           clearInterval(gameTicker)
         }
@@ -86,8 +87,20 @@ realtime.connection.once("connected", () => {
     })
 });
 
+// once connected, will create a channel
 function subscribeToPlayerInput(id) {
-
+  birdChannels[id] = realtime.channels.get("bird-position-" + id);
+  birdChannels[id].subscribe("pos", (msg) => { //subscribe to event pos
+    if (birds[id]) { //if that bird still exists
+      birds[id].bottom = msg.data.bottom;
+      birds[id].nickname = msg.data.nickname;
+      birds[id].score = msg.data.score;
+      if(msg.data.score > highScore) {
+        highScore = msg.data.score;
+        highScoreNickname = msg.data.nickname;
+      }
+    }
+  })
 }
 
 
