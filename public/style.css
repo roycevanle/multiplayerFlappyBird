@@ -1,15 +1,43 @@
 body {
     font-family: "VT323", monospace;
     margin: 0;
-}
+  }
+  
+  input {
+    font-family: inherit;
+    padding: 6px 8px;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+    width: 120px;
+    color: #533c44;
+  }
+  
+  input:focus {
+    outline: none;
+  }
+  
+  button {
+    display: inline-block;
+    padding: 10px 28px;
+    border: 2px solid white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: inherit;
+    color: white;
+    background-color: #533c44;
+    cursor: pointer;
+  }
 
 .game-container {
     width: 500px;
     height: 730px;
+    position: absolute;
     /*The element is positioned relative to its positioned ancestor element*/
     /*which means it'll be based on parents' dimensions & position*/
     position: absolute;
-    left: 80px; 
+    left: 60px;
 }
 
 .border-left {
@@ -32,12 +60,11 @@ body {
 }
 
 .border-top {
-    width: 660px;
-    height: 50px;
+    width: 500px;
+    height: 60px;
     position: absolute;
     background-color: white;
-    z-index: +2;
-    top: -50px;
+    z-index: +1;
 }
 
 .sky {
@@ -99,7 +126,7 @@ body {
     text-align: center;
     width: 600px;
     font-size: 25px;
-  }
+}
 
 .my-info {
 display: flex;
@@ -131,6 +158,22 @@ background-position: top right, top left, bottom right, bottom left;
 background-repeat: no-repeat;
 }
 
+.score-title {
+    margin: 0 0 0;
+    font-family: "VT323", monospace;
+    font-size: 3em;
+    text-align: center;
+    color: #ee5140;
+    text-shadow: 2px 2px #f0eaa1;
+}
+
+.top-score {
+    text-align: center;
+    margin: 0px 20px;
+    font-size: 20px;
+    color: #533c44;
+}
+
 .score-list {
     position: relative;
     height: 250px;
@@ -139,4 +182,4 @@ background-repeat: no-repeat;
     padding: 0;
     overflow-y: auto;
     z-index: 2;
-  }
+}
