@@ -1,9 +1,12 @@
-/* to load any env variables */
-const envConfig = require("dotenv").config();
-/* so our server can listen to requests & send back responses*/
-const express = require("express");
-/* to implement websocket based real-time messaging */
-const Ably = require("ably");
+const envConfig = require("dotenv").config();//to load any env variables
+const express = require("express");//so server can listen to requests & send back responses
+const Ably = require("ably");//to implement websocket based real-time messaging
+const gameChannelName = "flappy-game"
+let gameChannel;
+let birdCount = 0;
+let gameTicker;
+let isGameTickerOn = false;
+
 
 // static() creates a new middleware to serve files from w/in a given dir
 const app = express();
@@ -42,3 +45,13 @@ app.get('/auth', function (req, res) {
 const listener = app.listen(process.env.PORT, () => {
     console.log("App is listening on port " + listener.address().port);
 });
+
+realtime.connection.once("connected", () => {
+    gameChannel = realtime.channels.get(gameChannelName)
+    // .presence used to detect status updates (usr join, leave, dies, etc.)
+    gameChannel.presence.subscribe("enter", (msg) => {
+      if(++birdCount === 1 && !isGameTickerOn){
+        gameTicker = setInterval(startGameTick, 100);
+      }
+    })
+})
