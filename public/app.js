@@ -86,6 +86,13 @@ document.addEventListener('DOMContentLoaded' , () => {
     let gap = 440
     let isGameOver = false
 
+    // prevent default behavior when spacebar/any other key pressed (prevents scroll down)
+    window.addEventListener("keydown", function (e) {
+    if (e.keyCode == 32 && e.target == document.body) {
+        e.preventDefault();
+    }
+    });
+
     function startGame() {
         birdBottom -= gravity
         //adds a 100px from the bottom element
