@@ -1,9 +1,9 @@
 body {
     font-family: "VT323", monospace;
     margin: 0;
-  }
+}
   
-  input {
+input {
     font-family: inherit;
     padding: 6px 8px;
     border-radius: 10px;
@@ -11,13 +11,13 @@ body {
     text-align: center;
     width: 120px;
     color: #533c44;
-  }
+}
   
-  input:focus {
+input:focus {
     outline: none;
-  }
+}
   
-  button {
+button {
     display: inline-block;
     padding: 10px 28px;
     border: 2px solid white;
@@ -28,16 +28,14 @@ body {
     color: white;
     background-color: #533c44;
     cursor: pointer;
-  }
+}
 
-.game-container {
-    width: 500px;
-    height: 730px;
-    position: absolute;
-    /*The element is positioned relative to its positioned ancestor element*/
-    /*which means it'll be based on parents' dimensions & position*/
-    position: absolute;
-    left: 60px;
+button:hover {
+background-color: #423036;
+}
+
+button:active {
+background-color: #423036;
 }
 
 .border-left {
@@ -67,11 +65,24 @@ body {
     z-index: +1;
 }
 
+
+.game-container {
+    width: 500px;
+    height: 730px;
+    position: absolute;
+    /*The element is positioned relative to its positioned ancestor element*/
+    /*which means it'll be based on parents' dimensions & position*/
+    position: absolute;
+    left: 60px;
+}
+
 .sky {
-    background-color: blue;
+    background-image: url("fb-game-background.png");
     width: 500px;
     height: 580px;
     position: absolute;
+    top: 60px;
+    z-index: -1;
 }
 
 .bird {
@@ -126,13 +137,19 @@ body {
       }
 }
 
-.ground {
-    background-color: brown;
+.ground-container {
     width: 500px;
     height: 150px;
+}
+
+.ground {
     position: absolute;
-    top: 580px;
+    top: 630px;
+    height: 150px;
+    background-image: url("bottom-background.png");
+    width: 500px;
     z-index: +1; /*closer to us*/
+    margin-left: 60px;
 }
 
 .ground-moving {
@@ -160,37 +177,63 @@ body {
     text-align: center;
     width: 600px;
     font-size: 25px;
-  }
+}
 
 
 .my-info {
-display: flex;
-justify-content: center;
-width: 600px;
+    display: flex;
+    justify-content: center;
+    width: 600px;
 }
 
 .nickname {
-display: flex;
-margin: 20px 20px 40px 60px;
-text-align: center;
+    display: flex;
+    margin: 20px 20px 40px 60px;
+    text-align: center;
 }
 
 .my-score {
-font-size: 15px;
-margin-top: 1%;
-color: #533c44;
+    font-size: 15px;
+    margin-top: 1%;
+    color: #533c44;
 }
 
 .scoreboard {
-position: relative;
-max-width: 460px;
-margin: 20px 20px 20px 80px;
-padding: 20px;
-background-color: #ded895;
-background-image: url(top-right-brown.png), url(top-left-brown.png),
-    url(bottom-right-brown.png), url(bottom-left-brown.png);
-background-position: top right, top left, bottom right, bottom left;
-background-repeat: no-repeat;
+    position: relative;
+    max-width: 460px;
+    margin: 20px 20px 20px 80px;
+    padding: 20px;
+    background-color: #ded895;
+    background-image: url(top-right-brown.png), url(top-left-brown.png),
+        url(bottom-right-brown.png), url(bottom-left-brown.png);
+    background-position: top right, top left, bottom right, bottom left;
+    background-repeat: no-repeat;
+}
+
+.scoreboard:before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    display: block;
+    width: calc(100% - 20px);
+    height: calc(100% - 4px);
+    border-top: 2px solid #b1878f;
+    border-bottom: 2px solid #b1878f;
+    z-index: 1;
+}
+
+.scoreboard:after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 0px;
+    display: block;
+    width: calc(100% - 4px);
+    height: calc(100% - 20px);
+    border-left: 2px solid #b1878f;
+    border-right: 2px solid #b1878f;
+    z-index: 1;
 }
 
 .score-title {
@@ -217,4 +260,15 @@ background-repeat: no-repeat;
     padding: 0;
     overflow-y: auto;
     z-index: 2;
+}
+
+.score-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 20px;
+    list-style: none;
+    font-size: 2em;
+    font-weight: bolder;
+    color: white;
+    text-shadow: 1px 1px 1px black;
 }
