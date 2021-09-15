@@ -50,6 +50,7 @@ let myClientId;
 let myPublishChannel;
 let gameChannel;
 let gameChannelName = "flappy-game";
+let allBirds = {};
 
 
 // stores nickname in localstorage (play again & again)
@@ -138,6 +139,7 @@ document.addEventListener('DOMContentLoaded' , () => {
               })
               sendPositionUpdate();
               showOtherBirds();
+
               // register an event listener for keydown, then it'll call the control method (below)
               document.addEventListener("keydown", control);
       
@@ -263,6 +265,21 @@ document.addEventListener('DOMContentLoaded' , () => {
                 myPublishChannel.detach();
           }
         }, 100);
+    }
+
+    function showOtherBirds() {
+        gameChannel.subscribe("game-state", (msg) => {
+            for(let item in msg.data.birds) {
+                if(item != myClientId) {
+                    let newBottom = msg.data.birds[item].bottom;
+                    let isDead = msg.data.birds[item].isDead;
+                    if(allBirds[item] && !isDead) {
+                        allBirds[item].targetBottom = newBottom;
+                        allBirds[item].isDead = msg.data.birds[item].isDead;
+                    }
+                }
+            }
+        })
     }
 
     function sortLeaderboard() {
