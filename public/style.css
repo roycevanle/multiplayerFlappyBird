@@ -13,20 +13,22 @@ body {
 }
 
 .border-left {
-    width: 80px;
-    height: 790px;
+    width: 60px;
+    height: 100vh;
     position: absolute;
     background-color: white;
-    z-index: +2;
+    z-index: +1;
+    top: 0;
 }
 
-.border-right {
-    width: 80px;
-    height: 790px;
+.right-section {
+    width: calc(100% - 60px - 500px);
+    height: 100vh;
     position: absolute;
     background-color: white;
-    z-index: +2;
-    left: 580px;
+    z-index: +1;
+    left: 560px;
+    top: 0px;
 }
 
 .border-top {
