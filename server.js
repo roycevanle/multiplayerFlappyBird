@@ -25,7 +25,7 @@ const uniqueId = function() {
 /* Issue token requests to clients sending a request to the /auth endpoint */
 app.get('/auth', function (req, res) {
     var tokenParams = {
-        clientId: 
+        clientId: uniqueId(), 
     };
     //replace rest. with realtime.
     realtime.auth.createTokenRequest(tokenParams, function(err, tokenRequest) {
