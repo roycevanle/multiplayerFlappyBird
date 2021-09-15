@@ -156,11 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // makes it looks like smooth movement rather than laggy cause of network updates
         for (item in allBirds) {
-          if (allBirds[item].targetBottom) {
-            let tempBottom = parseInt(allBirds[item].el.style.bottom);
-            tempBottom += (allBirds[item].targetBottom - tempBottom) * 0.5;
-            allBirds[item].el.style.bottom = tempBottom + "px";
-          }
+            if (allBirds[item].targetBottom) {
+                let tempBottom = parseInt(allBirds[item].el.style.bottom);
+                tempBottom += (allBirds[item].targetBottom - tempBottom) * 0.5;
+                allBirds[item].el.style.bottom = tempBottom + "px";
+            }
         }
     }
 
@@ -324,8 +324,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function sortLeaderboard() {
         scoreLabel.innerHTML = "Score: " + myScore;
+        let listItems = "";
+        let leaderBoard = new Array();
+        for (let item in allBirds) {
+            leaderBoard.push({
+                nickname: allBirds[item].nickname,
+                score: allBirds[item].score,
+            });
+        }
+        leaderBoard.sort((a, b) => {
+            b.score - a.score;
+        });
+        leaderBoard.forEach((bird) => {
+            listItems +=
+                "<li class='score-item'><span class='name'>" +
+                bird.nickname +
+                "</span><span class='points'>" +
+                bird.score +
+                "pts</span></li>";
+        });
+        scoreList.innerHTML = listItems;
     }
-
-
 
 })
