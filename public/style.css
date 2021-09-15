@@ -75,10 +75,12 @@ body {
 }
 
 .bird {
-    background-color: yellow;
-    position: absolute;
+    background-image: url("flappy-bird.png");
     width: 60px;
     height: 45px;
+    position: absolute;
+    left: 220px;
+    bottom: 300px;
 }
 
 .obstacle {
@@ -96,6 +98,14 @@ body {
     position: absolute;
 }
 
+@keyframes slideright {
+
+}
+  
+@-webkit-keyframes slideright {
+
+}
+
 .ground {
     background-color: brown;
     width: 500px;
@@ -103,6 +113,17 @@ body {
     position: absolute;
     top: 580px;
     z-index: +1; /*closer to us*/
+}
+
+.ground-moving {
+    position: absolute;
+    top: 630px;
+    height: 150px;
+    background-image: url("bottom-background.png");
+    background-repeat: repeat-x;
+    animation: slideright 100s infinite linear;
+    -webkit-animation: slideright 100s infinite linear;
+    min-width: 100%;
 }
 
 .title {
@@ -121,12 +142,6 @@ body {
     font-size: 25px;
   }
 
-.instruction {
-    margin: 0px 20px 0px;
-    text-align: center;
-    width: 600px;
-    font-size: 25px;
-}
 
 .my-info {
 display: flex;

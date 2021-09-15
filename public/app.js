@@ -39,18 +39,28 @@ const nickNamesDictionary = [
   "sepia barbet",
 ];
 
+
+
+
+
 //waits for all our html to load. We pass through an event
 document.addEventListener('DOMContentLoaded' , () => {
     // . for a class selector
     // here we're selecting our elements so we can manipulate
+    const sky = document.querySelector('.sky');
     const bird = document.querySelector('.bird')
     const gameDisplay = document.querySelector('.game-container')
-    const ground = document.querySelector('.ground')
+    const ground = document.querySelector('.ground-moving');
+    let nicknameInput = document.getElementById('nickname-input');
+    let updateNicknameBtn = document.getElementById('update-nickname');
+    let scoreLabel = document.getElementById('score-label');
+    let topScoreLabel = document.getElementById('top-label');
+    let scoreList = document.getElementById('score-list');
 
     let birdLeft = 220
-    let birdBottom = 100
+    let birdBottom = 350
     let gravity = 2
-    let gap = 430
+    let gap = 440
     let isGameOver = false
 
     function startGame() {
@@ -136,10 +146,12 @@ document.addEventListener('DOMContentLoaded' , () => {
     generateObstacle();
 
     function gameOver() {
+        scoreLabel.innerHTML += " | Game Over";
         clearInterval(gameTimerId)
-        console.log('game over')
         isGameOver = true
         document.removeEventListener('keyup', control)
+        ground.classList.add("ground");
+        ground.classList.remove("ground-moving");
     }
 
 
