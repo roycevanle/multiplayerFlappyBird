@@ -1,3 +1,44 @@
+// if nicknames have badwords, it'll replace badwords with ***s
+const profanityBaseURL = "https://www.purgomalum.com/service/plain?text=";
+
+// dictonary for default nicknames
+const nickNamesDictionary = [
+  "pink crow",
+  "green pigeon",
+  "brown robin",
+  "blue woodpecker",
+  "purple sparrow",
+  "yellow kingfisher",
+  "gray warbler",
+  "orange bulbul",
+  "black drongo",
+  "red seagulls",
+  "beige flamingo",
+  "frost eagles",
+  "fuscia owl",
+  "mint kite",
+  "hickory parakeet",
+  "tortilla beeeater",
+  "wood munia",
+  "violet dove",
+  "eggplant peacock",
+  "golden oriole",
+  "magenta flycatcher",
+  "mulberry quail",
+  "slate magpie",
+  "navy roller",
+  "azure emu",
+  "arctic sunbird",
+  "iris starling",
+  "olive rockthrush",
+  "pecan barnowl",
+  "carob goose",
+  "coal duck",
+  "grease trogon",
+  "raven nightjar",
+  "sepia barbet",
+];
+
 //waits for all our html to load. We pass through an event
 document.addEventListener('DOMContentLoaded' , () => {
     // . for a class selector
