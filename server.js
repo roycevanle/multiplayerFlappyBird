@@ -65,7 +65,10 @@ realtime.connection.once("connected", () => {
   gameChannel = realtime.channels.get(gameChannelName)
   // .presence used to detect status updates (usr join, leave, dies, etc.)
   gameChannel.presence.subscribe("enter", (msg) => {
-    if (++birdCount === 1 && !isGameTickerOn) {
+    birdCount++;
+    console.log("JOINED Bird Count: " + birdCount);
+    if (birdCount === 1 && !isGameTickerOn) {
+      console.log("STARTING GAME TICK");
       gameTicker = setInterval(startGameTick, 100);
       isGameTickerOn = true;
     }
@@ -79,7 +82,6 @@ realtime.connection.once("connected", () => {
       nickname: msg.data.nickname,
       score: 0,
     };
-
     subscribeToPlayerInput(msg.clientId);
   });
 
@@ -90,8 +92,9 @@ realtime.connection.once("connected", () => {
       birds[msg.clientId].isDead = true;
       setTimeout(() => {
         delete birds[msg.clientId];
-      }, 500);
-      if (birdCount < 1) { // no players playing so no need to publish
+      }, 250);
+
+      if (birdCount === 0) { // no players playing so no need to publish
         isGameTickerOn = false;
         clearInterval(gameTicker)
       }
