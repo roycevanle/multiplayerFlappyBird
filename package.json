@@ -1,0 +1,30 @@
+{
+  "name": "multiplayerflappybird",
+  "version": "1.0.0",
+  "description": "multiplayer flappy bird app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roycevanle/multiplayerFlappyBird.git"
+  },
+  "keywords": [
+    "multiplayer",
+    "real-time",
+    "game"
+  ],
+  "author": "Royce L",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/roycevanle/multiplayerFlappyBird/issues"
+  },
+  "homepage": "https://github.com/roycevanle/multiplayerFlappyBird#readme",
+  "dependencies": {
+    "ably": "^1.2.13",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
+  }
+}
