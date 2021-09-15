@@ -51,6 +51,7 @@ let myPublishChannel;
 let gameChannel;
 let gameChannelName = "flappy-game";
 let allBirds = {};
+let obstacleTimer = 0;
 
 
 // stores nickname in localstorage (play again & again)
@@ -151,10 +152,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function startGame() {
-        birdBottom -= gravity
-        //adds a 100px from the bottom element
-        bird.style.bottom = birdBottom + 'px'
-        bird.style.left = birdLeft + 'px'
+        birdBottom -= gravity;
+        bird.style.bottom = birdBottom + "px";
+        bird.style.left = birdLeft + "px";
+
+        // makes it looks like smooth movement rather than laggy cause of network updates
+        for (item in allBirds) {
+          if (allBirds[item].targetBottom) {
+            let tempBottom = parseInt(allBirds[item].el.style.bottom);
+            tempBottom += (allBirds[item].targetBottom - tempBottom) * 0.5;
+            allBirds[item].el.style.bottom = tempBottom + "px";
+          }
+        }
     }
 
     // we invoke startGame every 20ms
