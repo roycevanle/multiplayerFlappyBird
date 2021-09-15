@@ -57,6 +57,12 @@ if (localStorage.getItem("flappy-nickname")) {
     localStorage.setItem("flappy-nickname", myNickname);
 }
 
+// instantiate the ably library
+// we setup the auth server, /auth cause server same place as app
+// otherwise we'd need to provide complete url of auth server here
+const realtime = new Ably.Realtime({
+    authUrl: "/auth",
+})
 
 
 
