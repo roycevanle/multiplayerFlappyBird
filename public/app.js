@@ -3,40 +3,40 @@ const profanityBaseURL = "https://www.purgomalum.com/service/plain?text=";
 
 // dictonary for default nicknames
 const nickNamesDictionary = [
-  "pink crow",
-  "green pigeon",
-  "brown robin",
-  "blue woodpecker",
-  "purple sparrow",
-  "yellow kingfisher",
-  "gray warbler",
-  "orange bulbul",
-  "black drongo",
-  "red seagulls",
-  "beige flamingo",
-  "frost eagles",
-  "fuscia owl",
-  "mint kite",
-  "hickory parakeet",
-  "tortilla beeeater",
-  "wood munia",
-  "violet dove",
-  "eggplant peacock",
-  "golden oriole",
-  "magenta flycatcher",
-  "mulberry quail",
-  "slate magpie",
-  "navy roller",
-  "azure emu",
-  "arctic sunbird",
-  "iris starling",
-  "olive rockthrush",
-  "pecan barnowl",
-  "carob goose",
-  "coal duck",
-  "grease trogon",
-  "raven nightjar",
-  "sepia barbet",
+    "pink crow",
+    "green pigeon",
+    "brown robin",
+    "blue woodpecker",
+    "purple sparrow",
+    "yellow kingfisher",
+    "gray warbler",
+    "orange bulbul",
+    "black drongo",
+    "red seagulls",
+    "beige flamingo",
+    "frost eagles",
+    "fuscia owl",
+    "mint kite",
+    "hickory parakeet",
+    "tortilla beeeater",
+    "wood munia",
+    "violet dove",
+    "eggplant peacock",
+    "golden oriole",
+    "magenta flycatcher",
+    "mulberry quail",
+    "slate magpie",
+    "navy roller",
+    "azure emu",
+    "arctic sunbird",
+    "iris starling",
+    "olive rockthrush",
+    "pecan barnowl",
+    "carob goose",
+    "coal duck",
+    "grease trogon",
+    "raven nightjar",
+    "sepia barbet",
 ];
 
 let obstacleTimers = [];
@@ -57,7 +57,7 @@ let allBirds = {};
 // if we save nickname in cookies, when user refreshes, we can get again
 if (localStorage.getItem("flappy-nickname")) {
     myNickname = localStorage.getItem("flappy-nickname");
-  } else { // else we get randomized name
+} else { // else we get randomized name
     myNickname = nickNamesDictionary[Math.floor(Math.random() * 34)];
     localStorage.setItem("flappy-nickname", myNickname);
 }
@@ -72,7 +72,7 @@ const realtime = new Ably.Realtime({
 
 
 //waits for all our html to load. We pass through an event
-document.addEventListener('DOMContentLoaded' , () => {
+document.addEventListener('DOMContentLoaded', () => {
     // . for a class selector
     // here we're selecting our elements so we can manipulate
     const sky = document.querySelector('.sky');
@@ -98,9 +98,9 @@ document.addEventListener('DOMContentLoaded' , () => {
         http.open("GET", profanityBaseURL + encodedText + "&fill_text=***");
         http.send();
         http.onload = () => {
-        myNickname = http.responseText;
-        nicknameInput.value = myNickname;
-        localStorage.setItem("flappy-nickname", myNickname);
+            myNickname = http.responseText;
+            nicknameInput.value = myNickname;
+            localStorage.setItem("flappy-nickname", myNickname);
         };
     };
 
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     topScoreLabel.innerHTML =
         "Top score - " + highScore + "pts by " + highScoreNickname;
     nicknameInput.value = myNickname;
-  
+
     // if you update your nickname, it sends to filter to check (method above)
     updateNicknameBtn.addEventListener("click", () => {
         filterNickname(nicknameInput.value);
@@ -133,19 +133,19 @@ document.addEventListener('DOMContentLoaded' , () => {
         // the game doesn't start directly on page, waits for you to click on game area
         gameDisplay.onclick = function () {
             if (!gameStarted) {
-              gameStarted = true;
-              gameChannel.presence.enter({
-                  nickname: myNickname,
-              })
-              sendPositionUpdate();
-              showOtherBirds();
+                gameStarted = true;
+                gameChannel.presence.enter({
+                    nickname: myNickname,
+                })
+                sendPositionUpdate();
+                showOtherBirds();
 
-              // register an event listener for keydown, then it'll call the control method (below)
-              document.addEventListener("keydown", control);
-      
-              // start game (below) every 20s to up gravity
-              gameTimerId = setInterval(startGame, 20);
-              generateObstacles();
+                // register an event listener for keydown, then it'll call the control method (below)
+                document.addEventListener("keydown", control);
+
+                // start game (below) every 20s to up gravity
+                gameTimerId = setInterval(startGame, 20);
+                generateObstacles();
             }
         };
     });
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     // if we want to stop, we do clearInterval(gameTimerId)
 
     function control(e) {
-        if(e.keyCode === 32) { //keyCode 32 is spacebar
+        if (e.keyCode === 32) { //keyCode 32 is spacebar
             jump()
         }
     }
@@ -200,18 +200,18 @@ document.addEventListener('DOMContentLoaded' , () => {
         // used to move obstacle (below) every 20ms (to emulate animation)
         let timerId = setInterval(moveObstacle, 20);
         obstacleTimers.push(timerId);
-        
+
         function moveObstacle() {
             obstacleLeft -= 2
             obstacle.style.left = obstacleLeft + 'px'
             topObstacle.style.left = obstacleLeft + 'px'
-            
+
             // if the obstacle reached half the area where the bird is
             // we increase the score label
             if (obstacleLeft === 220) {
                 myScore++;
                 setTimeout(() => {
-                sortLeaderboard();
+                    sortLeaderboard();
                 }, 400);
             }
 
@@ -225,10 +225,10 @@ document.addEventListener('DOMContentLoaded' , () => {
             // if bird reached the floor || hits an obstacle, gamveOver
             if (
                 obstacleLeft > 200 && obstacleLeft < 280 && birdLeft === 220 &&
-               (birdBottom < obstacleBottom + 153 ||
-                birdBottom > obstacleBottom + gap - 200) ||
+                (birdBottom < obstacleBottom + 153 ||
+                    birdBottom > obstacleBottom + gap - 200) ||
                 birdBottom === 0
-                ) {
+            ) {
                 for (timer in obstacleTimers) {
                     clearInterval(obstacleTimers[timer]);
                 }
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     // let client start publishing through their channel
     // if their game is over, detach their published channel
     function sendPositionUpdates() {
-        let publishTimer = setInterval( () => {
+        let publishTimer = setInterval(() => {
             myPublishChannel.publish("pos", {
                 bottom: parseInt(bird.style.bottom),
                 nickname: myNickname,
@@ -263,41 +263,43 @@ document.addEventListener('DOMContentLoaded' , () => {
             if (isGameOver) {
                 clearInterval(publishTimer);
                 myPublishChannel.detach();
-          }
+            }
         }, 100);
     }
 
     function showOtherBirds() {
         gameChannel.subscribe("game-state", (msg) => {
             for (let item in msg.data.birds) {
-                if (item != myClientId) {
-                  let newBottom = msg.data.birds[item].bottom;
-                  let newLeft = msg.data.birds[item].left;
-                  let isDead = msg.data.birds[item].isDead;
-                  if (allBirds[item] && !isDead) {
-                    allBirds[item].targetBottom = newBottom;
-                    allBirds[item].left = newLeft;
-                    allBirds[item].isDead = msg.data.birds[item].isDead;
-                    allBirds[item].nickname = msg.data.birds[item].nickname;
-                    allBirds[item].score = msg.data.birds[item].score;
-                  } else if (allBirds[item] && isDead) {
-                    sky.removeChild(allBirds[item].el);
-                    delete allBirds[item];
-                  } else {
-                    if (!isGameOver && !isDead) {
-                      allBirds[item] = {};
-                      allBirds[item].el = document.createElement("div");
-                      allBirds[item].el.classList.add("other-bird");
-                      sky.appendChild(allBirds[item].el);
-                      allBirds[item].el.style.bottom = newBottom + "px";
-                      allBirds[item].el.style.left = newLeft + "px";
-                      allBirds[item].isDead = msg.data.birds[item].isDead;
-                      allBirds[item].nickname = msg.data.birds[item].nickname;
-                      allBirds[item].score = msg.data.birds[item].score;
+                if (item != myClientId) { //for any bird not my own
+                    let newBottom = msg.data.birds[item].bottom;
+                    let newLeft = msg.data.birds[item].left;
+                    let isDead = msg.data.birds[item].isDead;
+                    // if bird exists locally & not dead
+                    if (allBirds[item] && !isDead) {
+                        allBirds[item].targetBottom = newBottom;
+                        allBirds[item].left = newLeft;
+                        allBirds[item].isDead = msg.data.birds[item].isDead;
+                        allBirds[item].nickname = msg.data.birds[item].nickname;
+                        allBirds[item].score = msg.data.birds[item].score;
+                    // if bird dead, we remove it & delete from local var
+                    } else if (allBirds[item] && isDead) {
+                        sky.removeChild(allBirds[item].el);
+                        delete allBirds[item];
+                    } else { // if bird doesn't exist, create new obj
+                        if (!isGameOver && !isDead) {
+                            allBirds[item] = {};
+                            allBirds[item].el = document.createElement("div");
+                            allBirds[item].el.classList.add("other-bird");
+                            sky.appendChild(allBirds[item].el);
+                            allBirds[item].el.style.bottom = newBottom + "px";
+                            allBirds[item].el.style.left = newLeft + "px";
+                            allBirds[item].isDead = msg.data.birds[item].isDead;
+                            allBirds[item].nickname = msg.data.birds[item].nickname;
+                            allBirds[item].score = msg.data.birds[item].score;
+                        }
                     }
-                  }
                 } else if (item == myClientId) {
-                  allBirds[item] = msg.data.birds[item];
+                    allBirds[item] = msg.data.birds[item];
                 }
             }
         })
@@ -305,7 +307,7 @@ document.addEventListener('DOMContentLoaded' , () => {
 
     function sortLeaderboard() {
         scoreLabel.innerHTML = "Score: " + myScore;
-      }
+    }
 
 
 

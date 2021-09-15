@@ -83,6 +83,15 @@ body {
     bottom: 300px;
 }
 
+.other-bird {
+    background-image: url("flappy-bird.png");
+    width: 60px;
+    height: 45px;
+    position: absolute;
+    z-index: -1;
+    opacity: 0.2;
+}
+
 .obstacle {
     background-image: url('flappybird-pipe.png');
     width: 60px;
