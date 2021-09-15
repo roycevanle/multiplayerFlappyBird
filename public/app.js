@@ -39,6 +39,14 @@ const nickNamesDictionary = [
   "sepia barbet",
 ];
 
+// stores nickname in localstorage (play again & again)
+// if we save nickname in cookies, when user refreshes, we can get again
+if (localStorage.getItem("flappy-nickname")) {
+    myNickname = localStorage.getItem("flappy-nickname");
+  } else { // else we get randomized name
+    myNickname = nickNamesDictionary[Math.floor(Math.random() * 34)];
+    localStorage.setItem("flappy-nickname", myNickname);
+}
 
 
 
