@@ -63,6 +63,7 @@ realtime.connection.once("connected", () => {
     // used identify each entry by unique clientId w/ some data
     birds[msg.clientId] = {
       id: msg.clientId,
+      left: 220,
       bottom: 350,
       isDead: false,
       nickname: msg.data.nickname,

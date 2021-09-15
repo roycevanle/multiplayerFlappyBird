@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameChannel.presence.enter({
                     nickname: myNickname,
                 })
-                sendPositionUpdate();
+                sendPositionUpdates();
                 showOtherBirds();
 
                 // register an event listener for keydown, then it'll call the control method (below)
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // keyup event is fired when a key is released (not when up arrow pressed)
     document.addEventListener('keyup', control);
 
-    function generateObstacle() {
+    function generateObstacles() {
         let obstacleLeft = 500
         // will generate div height of 1-60 from the ground
         let randomHeight = Math.random() * 60
@@ -242,19 +242,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameOver();
             }
         }
-
-        // setTimeout calls a function after a specified number of ms
-        // generates obstacle only if not gameOver
-        if (!isGameOver) setTimeout(generateObstacle, 3000)
     }
 
     function gameOver() {
         scoreLabel.innerHTML += " | Game Over";
-        clearInterval(gameTimerId)
-        isGameOver = true
-        document.removeEventListener('keyup', control)
+        clearInterval(gameTimerId);
+        isGameOver = true;
+        document.removeEventListener("keydown", control);
         ground.classList.add("ground");
         ground.classList.remove("ground-moving");
+        realtime.connection.close();
     }
 
     // client connected & start game by clicking (above)
