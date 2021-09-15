@@ -128,6 +128,20 @@ document.addEventListener('DOMContentLoaded' , () => {
         myPublishedChannel = realtime.channels.get
             ("bird-position-" + myClientId);
         gameChannel = realtime.channels.get(gameChannelName);
+
+        // the game doesn't start directly on page, waits for you to click on game area
+        gameDisplay.onclick = function () {
+            if (!gameStarted) {
+              gameStarted = true;
+              
+              // register an event listener for keydown, then it'll call the control method (below)
+              document.addEventListener("keydown", control);
+      
+              // start game (below) every 20s to up gravity
+              gameTimerId = setInterval(startGame, 20);
+              generateObstacles();
+            }
+        };
     });
 
     function startGame() {
@@ -220,9 +234,6 @@ document.addEventListener('DOMContentLoaded' , () => {
         // generates obstacle only if not gameOver
         if (!isGameOver) setTimeout(generateObstacle, 3000)
     }
-
-
-    generateObstacle();
 
     function gameOver() {
         scoreLabel.innerHTML += " | Game Over";
