@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     let birdLeft = 220
     let birdBottom = 100
     let gravity = 2
+    let gap = 430
     let isGameOver = false
 
     function startGame() {
@@ -46,24 +47,35 @@ document.addEventListener('DOMContentLoaded' , () => {
         // how to create divs (which we'll use as obstacles)
         // add the class of obstacle to this obstacle object (to this custom div)
         const obstacle = document.createElement('div')
-        if (!isGameOver) obstacle.classList.add('obstacle')
+        const topObstacle = document.createElement('div')
+        if (!isGameOver) {
+            obstacle.classList.add('obstacle')
+            topObstacle.classList.add('topObstacle')
+        }
         gameDisplay.appendChild(obstacle)
+        gameDisplay.appendChild(topObstacle)
         obstacle.style.left = obstacleLeft + 'px'
+        topObstacle.style.left = obstacleLeft + 'px'
         obstacle.style.bottom = obstacleBottom + 'px'
+        topObstacle.style.bottom = obstacleBottom + gap + 'px'
 
         function moveObstacle() {
             obstacleLeft -= 2
             obstacle.style.left = obstacleLeft + 'px'
+            topObstacle.style.left = obstacleLeft + 'px'
             
             // if it reaches left edge, delete the obstacle
             if (obstacleLeft === -60) {
                 clearInterval(timerId)
                 gameDisplay.removeChild(obstacle)
+                gameDisplay.removeChild(topObstacle)
             }
 
             // if bird reached the floor || hits an obstacle, gamveOver
             if (
-                obstacleLeft > 200 && obstacleLeft < 280 && birdLeft === 220 ||
+                obstacleLeft > 200 && obstacleLeft < 280 && birdLeft === 220 &&
+               (birdBottom < obstacleBottom + 153 ||
+                birdBottom > obstacleBottom + gap - 200) ||
                 birdBottom === 0
                 ) {
                 gameOver()

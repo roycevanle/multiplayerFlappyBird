@@ -1,9 +1,40 @@
+body {
+    display: flex;
+}
+
 .game-container {
     width: 500px;
     height: 730px;
     /*The element is positioned relative to its positioned ancestor element*/
     /*which means it'll be based on parents' dimensions & position*/
-    position: absolute; 
+    position: absolute;
+    left: 80px; 
+}
+
+.border-left {
+    width: 80px;
+    height: 790px;
+    position: absolute;
+    background-color: white;
+    z-index: +2;
+}
+
+.border-right {
+    width: 80px;
+    height: 790px;
+    position: absolute;
+    background-color: white;
+    z-index: +2;
+    left: 580px;
+}
+
+.border-top {
+    width: 660px;
+    height: 50px;
+    position: absolute;
+    background-color: white;
+    z-index: +2;
+    top: -50px;
 }
 
 .sky {
@@ -19,6 +50,7 @@
     height: 150px;
     position: absolute;
     top: 580px;
+    z-index: +1; /*closer to us*/
 }
 
 .bird {
@@ -29,7 +61,15 @@
 }
 
 .obstacle {
-    background-color: green;
+    background-image: url('flappybird-pipe.png');
+    width: 60px;
+    height: 300px;
+    position: absolute;
+}
+
+.topObstacle {
+    background-image: url('flappybird-pipe.png');
+    transform: rotate(180deg);
     width: 60px;
     height: 300px;
     position: absolute;
