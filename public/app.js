@@ -175,10 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // we invoke startGame every 20ms
-    let gameTimerId = setInterval(startGame, 20)
-    // if we want to stop, we do clearInterval(gameTimerId)
-
     function control(e) {
         if (e.keyCode === 32) { //keyCode 32 is spacebar
             jump()
@@ -189,69 +185,65 @@ document.addEventListener('DOMContentLoaded', () => {
         // add an upper echelon so that we don't jump off the screen
         if (birdBottom < 500) birdBottom += 50
         bird.style.bottom = bird + 'px'
-        console.log(birdBottom)
     }
 
-    // keyup event is fired when a key is released (not when up arrow pressed)
-    document.addEventListener('keyup', control);
-
-    function generateObstacles() {
-        let obstacleLeft = 500
-        // will generate div height of 1-60 from the ground
-        let randomHeight = Math.random() * 60
-        let obstacleBottom = randomHeight
-        // how to create divs (which we'll use as obstacles)
-        // add the class of obstacle to this obstacle object (to this custom div)
-        const obstacle = document.createElement('div')
-        const topObstacle = document.createElement('div')
+    function generateObstacles(randomHeight) {
         if (!isGameOver) {
-            obstacle.classList.add('obstacle')
-            topObstacle.classList.add('topObstacle')
-        }
-        gameDisplay.appendChild(obstacle)
-        gameDisplay.appendChild(topObstacle)
-        obstacle.style.left = obstacleLeft + 'px'
-        topObstacle.style.left = obstacleLeft + 'px'
-        obstacle.style.bottom = obstacleBottom + 'px'
-        topObstacle.style.bottom = obstacleBottom + gap + 'px'
+            let obstacleLeft = 500
+            let obstacleBottom = randomHeight;
+            // let randomHeight = Math.random() * 60
 
-        // used to move obstacle (below) every 20ms (to emulate animation)
-        let timerId = setInterval(moveObstacle, 20);
-        obstacleTimers.push(timerId);
-
-        function moveObstacle() {
-            obstacleLeft -= 2
+            // how to create divs (which we'll use as obstacles)
+            // add the class of obstacle to this obstacle object (to this custom div)
+            const obstacle = document.createElement("div");
+            const topObstacle = document.createElement("div");
+            obstacle.classList.add("obstacle");
+            topObstacle.classList.add("topObstacle");
+            gameDisplay.appendChild(obstacle)
+            gameDisplay.appendChild(topObstacle)
             obstacle.style.left = obstacleLeft + 'px'
             topObstacle.style.left = obstacleLeft + 'px'
+            obstacle.style.bottom = obstacleBottom + 'px'
+            topObstacle.style.bottom = obstacleBottom + gap + 'px'
 
-            // if the obstacle reached half the area where the bird is
-            // we increase the score label
-            if (obstacleLeft === 220) {
-                myScore++;
-                setTimeout(() => {
-                    sortLeaderboard();
-                }, 400);
-            }
+            // used to move obstacle (below) every 20ms (to emulate animation)
+            let timerId = setInterval(moveObstacle, 20);
+            obstacleTimers.push(timerId);
 
-            // when obstacle is far to left, remove it from gameDisplay
-            if (obstacleLeft === -50) {
-                clearInterval(timerId);
-                gameDisplay.removeChild(obstacle);
-                gameDisplay.removeChild(topObstacle);
-            }
+            function moveObstacle() {
+                obstacleLeft -= 2
+                obstacle.style.left = obstacleLeft + 'px'
+                topObstacle.style.left = obstacleLeft + 'px'
 
-            // if bird reached the floor || hits an obstacle, gamveOver
-            if (
-                obstacleLeft > 200 && obstacleLeft < 280 && birdLeft === 220 &&
-                (birdBottom < obstacleBottom + 153 ||
-                    birdBottom > obstacleBottom + gap - 200) ||
-                birdBottom === 0
-            ) {
-                for (timer in obstacleTimers) {
-                    clearInterval(obstacleTimers[timer]);
+                // if the obstacle reached half the area where the bird is
+                // we increase the score label
+                if (obstacleLeft === 220) {
+                    myScore++;
+                    setTimeout(() => {
+                        sortLeaderboard();
+                    }, 400);
                 }
-                sortLeaderboard();
-                gameOver();
+
+                // when obstacle is far to left, remove it from gameDisplay
+                if (obstacleLeft === -50) {
+                    clearInterval(timerId);
+                    gameDisplay.removeChild(obstacle);
+                    gameDisplay.removeChild(topObstacle);
+                }
+
+                // if bird reached the floor || hits an obstacle, gamveOver
+                if (
+                    (obstacleLeft > 200 && obstacleLeft < 280 && birdLeft === 220 &&
+                    (birdBottom < obstacleBottom + 210 ||
+                        birdBottom > obstacleBottom + gap - 150)) ||
+                    birdBottom === 0
+                ) {
+                    for (timer in obstacleTimers) {
+                        clearInterval(obstacleTimers[timer]);
+                    }
+                    sortLeaderboard();
+                    gameOver();
+                }
             }
         }
     }

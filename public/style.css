@@ -200,12 +200,12 @@ background-color: #423036;
 
 .scoreboard {
     position: relative;
-    max-width: 460px;
+    max-width: 450px;
     margin: 20px 20px 20px 80px;
     padding: 20px;
     background-color: #ded895;
     background-image: url(top-right-brown.png), url(top-left-brown.png),
-        url(bottom-right-brown.png), url(bottom-left-brown.png);
+      url(bottom-right-brown.png), url(bottom-left-brown.png);
     background-position: top right, top left, bottom right, bottom left;
     background-repeat: no-repeat;
 }
