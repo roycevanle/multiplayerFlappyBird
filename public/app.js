@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function control(e) {
-        if (e.keyCode === 32) { //keyCode 32 is spacebar
+        if (e.keyCode === 32 && !isGameOver) { //keyCode 32 is spacebar
             jump()
         }
     }
