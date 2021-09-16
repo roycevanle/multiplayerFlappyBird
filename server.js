@@ -40,9 +40,9 @@ app.get('/auth', function (req, res) {
   //replace rest. with realtime.
   realtime.auth.createTokenRequest(tokenParams, function (err, tokenRequest) {
     if (err) {
-      res.status(500).send('Error requesting token: ' + JSON.stringify(err));
+      res.status(500).send("Error requesting token: " + JSON.stringify(err));
     } else {
-      res.setHeader('Content-Type', 'application/json');
+      res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(tokenRequest));
     }
   });
@@ -89,12 +89,14 @@ realtime.connection.once("connected", () => {
   gameChannel.presence.subscribe('leave', (msg) => {
     if (birds[msg.clientId] != undefined) { // if client exists...
       birdCount--;
+      console.log("LEFT Bird count " + birdCount + " " + msg.clientId);
       birds[msg.clientId].isDead = true;
       setTimeout(() => {
         delete birds[msg.clientId];
       }, 250);
 
       if (birdCount === 0) { // no players playing so no need to publish
+        console.log("STOPPING GAME TICK");
         isGameTickerOn = false;
         clearInterval(gameTicker)
       }
