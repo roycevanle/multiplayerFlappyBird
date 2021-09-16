@@ -255,8 +255,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.removeEventListener("keydown", control);
         ground.classList.add("ground");
         ground.classList.remove("ground-moving");
-        gameChannel.presence.leave();
-        gameChannel.detach();
         realtime.connection.close();
     }
 
